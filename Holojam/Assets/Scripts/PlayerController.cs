@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
         //print(moveValue);
         // your movement code here
         rb.velocity = new Vector2(moveValue.x * moveSpeed * Time.deltaTime, rb.velocity.y);
-        if (jumpAction.IsPressed() && rb.velocity.y == 0)
+        if (jumpAction.IsPressed() && rb.velocity.y == 0) //wont work if jumping into a ceiling so i should fix this later to be a ray cast
         {
            // print("jump");
             // your jump code here
