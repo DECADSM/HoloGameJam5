@@ -18,7 +18,8 @@ public class PlayerController : MonoBehaviour
         moveAction = InputSystem.actions.FindAction("Move");
         jumpAction = InputSystem.actions.FindAction("Jump");
     }
-
+    //TODO:
+    //make gravity scale change based on if player is holding jump to allow for variable jump height
     // Update is called once per frame
     void FixedUpdate()
     {
