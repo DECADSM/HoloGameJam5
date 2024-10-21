@@ -6,10 +6,11 @@ using UnityEngine;
 public class Enemy_Base : MonoBehaviour
 {
     public float Health, Damage;
-    public float MoveSpeed;
+    public float MoveSpeed= 30, JumpStrength = 5;
+    private Rigidbody2D rb;
 
     public PlayerController player;
-    bool moving = false;
+    bool moving = true;
 
     public Vector2[] PatrolPoints;
 
@@ -17,12 +18,14 @@ public class Enemy_Base : MonoBehaviour
     void Start()
     {
         player = FindObjectOfType<PlayerController>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(CheckLOS())
+        //if(CheckLOS() && moving == true)
+        if(moving)
             transform.position = Vector2.MoveTowards(transform.position, player.transform.position, MoveSpeed * Time.deltaTime);
 
     }
@@ -56,5 +59,10 @@ public class Enemy_Base : MonoBehaviour
         }
 
         return false;
+    }
+
+    public virtual void Jump()
+    {
+        GetComponent<Rigidbody>().velocity = new Vector2(GetComponent<Rigidbody>().velocity.x, JumpStrength);
     }
 }
