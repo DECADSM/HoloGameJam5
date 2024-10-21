@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 public class BaseGun : MonoBehaviour
 {
     public GameObject bulletPrefab;
+    public GameObject ArrowPrefab;
+    public GameObject magicSealPrefab;
     [SerializeField]
     private Transform BulletSpawnerTransform;
     
