@@ -8,9 +8,12 @@ public class Enemy_Base : MonoBehaviour
     public float Health, Damage;
     public float MoveSpeed= 30, JumpStrength = 5;
     private Rigidbody2D rb;
+    Pathfinding pf;
+
+    public float JumpDistance = 5;
 
     public PlayerController player;
-    bool moving = true;
+    bool moving = false;
 
     public Vector2[] PatrolPoints;
 
@@ -19,11 +22,16 @@ public class Enemy_Base : MonoBehaviour
     {
         player = FindObjectOfType<PlayerController>();
         rb = GetComponent<Rigidbody2D>();
+        pf = GetComponent<Pathfinding>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            pf.PathFinding();
+        }
         //if(CheckLOS() && moving == true)
         if(moving)
             transform.position = Vector2.MoveTowards(transform.position, player.transform.position, MoveSpeed * Time.deltaTime);
