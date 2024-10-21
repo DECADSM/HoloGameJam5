@@ -5,6 +5,7 @@ using UnityEngine;
 public class Node : MonoBehaviour
 {
     public float g, h, f;
+    public Node parent;
 
     private void OnDrawGizmos()
     {
