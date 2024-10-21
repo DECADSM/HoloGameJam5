@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum BulletType
+{
+    Gun,
+    Bow,
+    Magic,
+};
 public class Bullet : MonoBehaviour
 {
     public float lifetime = 3f;

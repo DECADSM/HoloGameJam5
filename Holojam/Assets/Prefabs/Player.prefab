@@ -258,7 +258,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpStrength: 5
   moveSpeed: 500
-  WallCheckCorrectionValue: 0.1
+  WallCheckCorrectionValue: 0
+  MoveThroughLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &5528543994253018680
 GameObject:
   m_ObjectHideFlags: 0

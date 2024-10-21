@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7980704216311015633}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -102,7 +102,10 @@ MonoBehaviour:
   Health: 0
   Damage: 0
   MoveSpeed: 5
+  JumpStrength: 5
+  JumpDistance: 5
   player: {fileID: 0}
+  PatrolPoints: []
 --- !u!58 &2574412383834315196
 CircleCollider2D:
   m_ObjectHideFlags: 0

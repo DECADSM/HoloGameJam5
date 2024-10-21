@@ -10,12 +10,12 @@ public class PlayerController : MonoBehaviour
     private InputAction moveAction;
     private InputAction jumpAction;
     private ContactFilter2D wallContactFilter;
-    private float capsuleCurveOffset = 0.75f;
 
     public float jumpStrength = 5f;
     public float moveSpeed = 50f;
 
     public float WallCheckCorrectionValue = 0.1f;
+    public LayerMask MoveThroughLayer = 1 << 3;
 
 
     // Start is called before the first frame update
@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     {
         moveAction = InputSystem.actions.FindAction("Move");
         jumpAction = InputSystem.actions.FindAction("Jump");
-        LayerMask playerMask = 0b_1111_1111_1111_1111 ^  (1 << 3); //anything but a player
+        LayerMask playerMask = 0b_1111_1111_1111_1111 ^ MoveThroughLayer; //anything but a player
         wallContactFilter.SetLayerMask(playerMask);
 
     }
@@ -45,19 +45,28 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector3(moveValue.x, 1, 1);
         }
         // check if moving into an object
+        float halfSize = capsuleCollider.bounds.extents.x;
         RaycastHit2D[] hits = new RaycastHit2D[10];
-        int numHits = 0;
-        numHits += Physics2D.Raycast(new Vector2(transform.position.x,transform.position.y), moveValue, wallContactFilter, hits, capsuleCollider.bounds.extents.x + WallCheckCorrectionValue);
-        numHits += Physics2D.Raycast(new Vector2(transform.position.x,transform.position.y + capsuleCollider.bounds.extents.y * capsuleCurveOffset), moveValue, wallContactFilter, hits, capsuleCollider.bounds.extents.x + WallCheckCorrectionValue);
-        numHits += Physics2D.Raycast(new Vector2(transform.position.x,transform.position.y - capsuleCollider.bounds.extents.y * capsuleCurveOffset), moveValue, wallContactFilter, hits, capsuleCollider.bounds.extents.x + WallCheckCorrectionValue);
+        int numHits = Physics2D.BoxCast(new Vector2(transform.position.x, transform.position.y), new Vector2(0.9f, 1.9f), 0, moveValue, wallContactFilter, hits, halfSize+ WallCheckCorrectionValue);
+        
+        bool canmove = true;
 
-        if(numHits == 0) //if trying to move into a wall or some other object
+        for (int i = 0; i < numHits; i++)
+        {
+            if (hits[i].rigidbody.gameObject.tag != "Enemy" && hits[i].distance < 0.1f)
+            {
+                canmove = false;
+                //print(hits[i].distance);
+                break;
+            }
+        }
+        if (canmove) 
         {
             rb.velocity = new Vector2(moveValue.x * moveSpeed * Time.deltaTime, rb.velocity.y);
 
         }
 
-        
+
 
         if (jumpAction.IsPressed() && rb.velocity.y == 0) //wont work if jumping into a ceiling so i should fix this later to be a ray cast
         {
@@ -68,4 +77,5 @@ public class PlayerController : MonoBehaviour
     }
 
     
+
 }
