@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -39,16 +40,22 @@ public class Enemy_Base : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.gameObject.Equals(player.gameObject))
+        if (player != null)
         {
-            moving = false;
+            if (collision.collider.gameObject.Equals(player.gameObject))
+            {
+                moving = false;
+            }
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.collider.gameObject.Equals(player.gameObject))
+        if (player != null)
         {
-            moving = true;
+            if (collision.collider.gameObject.Equals(player.gameObject))
+            {
+                moving = true;
+            }
         }
     }
 

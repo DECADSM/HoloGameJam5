@@ -44,6 +44,14 @@ public class Pathfinding : MonoBehaviour
                     continue;
                 if (ClosedList.Contains(n))
                     continue;
+                float dist = Vector2.Distance(n.transform.position, Agent.player.transform.position);
+                if (dist <= 2)
+                {
+                    print(n.transform.parent.name + " " + n.name + " is the closest node");
+                    n.parent = current;
+                    ClosedList.Add(n);
+                    return;
+                }
                 //make end condition to exit pathfinding
                 //idea, use two raycasts, one the hits everything, walls, platforms ..etc then one that ignores platforms
                 //The one the ignores platforms means that the enemy can still see the player the other one will check for if it's true LOS
