@@ -8,22 +8,22 @@ using UnityEngine;
 public class Enemy_Base : MonoBehaviour
 {
     public float Health, Damage;
-    public float MoveSpeed= 30, JumpStrength = 5;
+    public float MoveSpeed = 5, JumpStrength = 13;
     private Rigidbody2D rb;
 
     public float JumpDistance = 5;
 
     public PlayerController player;
-    [SerializeField] bool moving = false;
+    [SerializeField] public bool moving = false;
 
-    [SerializeField] Vector2[] PatrolPoints;
-    [SerializeField]bool grounded = true;
-    bool trackingPlayer = true;
+    [SerializeField] public Vector2[] PatrolPoints;
+    [SerializeField] public bool grounded = true;
+    public bool trackingPlayer = true;
 
     List<Node> PlatformNodes;
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         PatrolPoints = new Vector2[2];
         PatrolPoints[0] = transform.GetChild(0).position;
@@ -35,10 +35,8 @@ public class Enemy_Base : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
-            Jump();
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.5f);
         if (hit.collider != null)
         {
@@ -102,7 +100,7 @@ public class Enemy_Base : MonoBehaviour
         }
     }
 
-    Node FindClosestNode()
+    public Node FindClosestNode()
     {
         foreach (Node n in PlatformNodes)
         {
@@ -116,7 +114,7 @@ public class Enemy_Base : MonoBehaviour
         return null;
     }
 
-    float CheckDistToPlayer()
+    public float CheckDistToPlayer()
     {
         return Vector2.Distance(transform.position, player.transform.position);
     }
