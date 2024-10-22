@@ -8,6 +8,7 @@ public class BaseGun : MonoBehaviour
     public GameObject bulletPrefab;
     public GameObject ArrowPrefab;
     public GameObject magicSealPrefab;
+    public BulletType currentBullet = BulletType.Gun;
     [SerializeField]
     private Transform BulletSpawnerTransform;
     
@@ -28,11 +29,32 @@ public class BaseGun : MonoBehaviour
     {
         if(ShootAction.WasPressedThisFrame())
         {
-            GameObject bullet = GameObject.Instantiate(bulletPrefab,BulletSpawnerTransform.position,new Quaternion());
-            Rigidbody2D bulletRB = bullet.GetComponent<Rigidbody2D>();
-            Vector2 direction = new Vector2(playerTransform.lossyScale.x, 0).normalized;
-            print(direction);
-            bulletRB.velocity = direction * bullet.GetComponent<Bullet>().speed;
+            GameObject projPrefab = null;
+            switch(currentBullet)
+            {
+                case BulletType.Gun:
+                    projPrefab = bulletPrefab;
+                    break;
+                case BulletType.Bow:
+                    projPrefab = ArrowPrefab;   
+                    break;
+                case BulletType.Magic:
+                    projPrefab = magicSealPrefab;
+                    break;
+
+            }
+            GameObject bullet = GameObject.Instantiate(projPrefab,BulletSpawnerTransform.position,new Quaternion());
+            if(bullet != null)
+            {
+                Rigidbody2D bulletRB = bullet.GetComponent<Rigidbody2D>();
+                Vector2 direction = new Vector2(playerTransform.lossyScale.x, 0).normalized;
+                bulletRB.velocity = direction * bullet.GetComponent<Bullet>().speed;
+            }
+            else
+            {
+                Debug.LogError("Failed to create a bullet");
+            }
+            
         }
     }
 }

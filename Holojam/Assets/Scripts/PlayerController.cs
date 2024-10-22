@@ -6,32 +6,66 @@ using UnityEngine.InputSystem;
 
 public enum VTubeManNameGuy
 {
+    Start,
     Altare,
     Shinri,
     Hakka,
+    End,
 };
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
     private InputAction moveAction;
     private InputAction jumpAction;
+    private InputAction nextAction;
+    private InputAction previousAction;
     private ContactFilter2D wallContactFilter;
 
+    [Header("Movement Parameters")]
     public float jumpStrength = 5f;
     public float moveSpeed = 50f;
 
+    [Space(10)]
+    [Header("Wall Check Parameters")]
     public float WallCheckCorrectionValue = 0.1f;
     public LayerMask MoveThroughLayer = 1 << 3;
 
+    [Space(10)]
+    [Header("Character Parameters")]
+    public VTubeManNameGuy currentCharacter = VTubeManNameGuy.Altare;
 
     // Start is called before the first frame update
     void Start()
     {
         moveAction = InputSystem.actions.FindAction("Move");
         jumpAction = InputSystem.actions.FindAction("Jump");
+        nextAction = InputSystem.actions.FindAction("Next");
+        previousAction = InputSystem.actions.FindAction("Previous");
         LayerMask playerMask = 0b_1111_1111_1111_1111 ^ MoveThroughLayer; //anything but a player
         wallContactFilter.SetLayerMask(playerMask);
 
+    }
+
+    private void Update()
+    {
+        if (nextAction.WasPressedThisFrame())
+        {
+            currentCharacter = currentCharacter + 1;
+            if(currentCharacter == VTubeManNameGuy.End)
+            {
+                currentCharacter = VTubeManNameGuy.Altare;
+            }
+            UpdateCharacterProperties();
+        }
+        else if (previousAction.WasPressedThisFrame())
+        {
+            currentCharacter = currentCharacter - 1;
+            if (currentCharacter == VTubeManNameGuy.Start)
+            {
+                currentCharacter = VTubeManNameGuy.Hakka;
+            }
+            UpdateCharacterProperties();
+        }
     }
     //TODO:
     //make gravity scale change based on if player is holding jump to allow for variable jump height
@@ -80,6 +114,17 @@ public class PlayerController : MonoBehaviour
             // your jump code here
             rb.velocity = new Vector2(rb.velocity.x, jumpStrength);
         }
+
+        
+
+    }
+
+    private void UpdateCharacterProperties()
+    {
+        //do things like update sprites and playing a character swap animation, ect.
+        //change current bullet
+        BaseGun gun = GetComponentInChildren<BaseGun>();
+        gun.currentBullet = (BulletType)((int)(currentCharacter) - 1);
     }
 
     
