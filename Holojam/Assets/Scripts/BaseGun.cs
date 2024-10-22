@@ -21,7 +21,7 @@ public class BaseGun : MonoBehaviour
         playerTransform = GetComponentInParent<Transform>();
         Debug.Assert(playerTransform != null, "Gun failed to find parent transform");
        
-        ShootAction = InputSystem.actions.FindAction("Attack");
+        ShootAction = InputSystem.actions.FindAction("Shoot");
     }
 
     // Update is called once per frame
