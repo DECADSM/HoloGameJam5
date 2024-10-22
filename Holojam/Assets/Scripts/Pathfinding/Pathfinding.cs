@@ -23,6 +23,8 @@ public class Pathfinding : MonoBehaviour
         Start.g = Vector2.Distance(Agent.player.transform.position, Agent.transform.position);
         ClosestNodes = new List<Node>();
 
+        Vector2 DirectionToPlayer = Agent.player.transform.position - transform.position;
+
         if (PlatformNodes is { Count: 0 })
             PlatformNodes = FindObjectsOfType<Node>().ToList();
         OpenList = new List<Node>();
@@ -44,6 +46,9 @@ public class Pathfinding : MonoBehaviour
                     continue;
                 if (ClosedList.Contains(n))
                     continue;
+                Vector2 DirectiontoN = n.transform.position - transform.position;
+                //if (Vector2.Dot(DirectiontoN, DirectionToPlayer) > 90)
+                  //  continue;
                 float dist = Vector2.Distance(n.transform.position, Agent.player.transform.position);
                 if (dist <= 2)
                 {

@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 399313535700748473}
   - component: {fileID: 2069062786045034443}
   - component: {fileID: 7838483520949311770}
+  - component: {fileID: 4905058656824159162}
   m_Layer: 0
   m_Name: Platform
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32,7 +33,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6885681386240015610}
-  - {fileID: 899021225067080274}
   - {fileID: 5385533220958650545}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -118,7 +118,7 @@ BoxCollider2D:
     serializedVersion: 2
     m_Bits: 4294967295
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
@@ -133,68 +133,25 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!1001 &3840420128626877021
-PrefabInstance:
+--- !u!251 &4905058656824159162
+PlatformEffector2D:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 399313535700748473}
-    m_Modifications:
-    - target: {fileID: 4121390453586675727, guid: 732c0582e031f2d43b53e1780ef31512, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4121390453586675727, guid: 732c0582e031f2d43b53e1780ef31512, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4121390453586675727, guid: 732c0582e031f2d43b53e1780ef31512, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4121390453586675727, guid: 732c0582e031f2d43b53e1780ef31512, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4121390453586675727, guid: 732c0582e031f2d43b53e1780ef31512, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4121390453586675727, guid: 732c0582e031f2d43b53e1780ef31512, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4121390453586675727, guid: 732c0582e031f2d43b53e1780ef31512, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4121390453586675727, guid: 732c0582e031f2d43b53e1780ef31512, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4121390453586675727, guid: 732c0582e031f2d43b53e1780ef31512, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4121390453586675727, guid: 732c0582e031f2d43b53e1780ef31512, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5418410590006080513, guid: 732c0582e031f2d43b53e1780ef31512, type: 3}
-      propertyPath: m_Name
-      value: Center Node
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 732c0582e031f2d43b53e1780ef31512, type: 3}
---- !u!4 &899021225067080274 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4121390453586675727, guid: 732c0582e031f2d43b53e1780ef31512, type: 3}
-  m_PrefabInstance: {fileID: 3840420128626877021}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4889450635519756843}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1001 &7403007894983193845
 PrefabInstance:
   m_ObjectHideFlags: 0

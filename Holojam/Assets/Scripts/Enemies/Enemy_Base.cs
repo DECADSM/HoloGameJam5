@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -9,71 +10,76 @@ public class Enemy_Base : MonoBehaviour
     public float Health, Damage;
     public float MoveSpeed= 30, JumpStrength = 5;
     private Rigidbody2D rb;
-    Pathfinding pf;
 
     public float JumpDistance = 5;
 
     public PlayerController player;
     [SerializeField] bool moving = false;
 
-    public Vector2[] PatrolPoints;
-    Queue<Node> closedList;
-    Node previous;
+    [SerializeField] Vector2[] PatrolPoints;
     [SerializeField]bool grounded = true;
+    bool trackingPlayer = true;
+
+    List<Node> PlatformNodes;
 
     // Start is called before the first frame update
     void Start()
     {
+        PatrolPoints = new Vector2[2];
+        PatrolPoints[0] = transform.GetChild(0).position;
+        PatrolPoints[1] = transform.GetChild(1).position;
+
         player = FindObjectOfType<PlayerController>();
         rb = GetComponent<Rigidbody2D>();
-        pf = GetComponent<Pathfinding>();
+        PlatformNodes = FindObjectsOfType<Node>().ToList();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            if(!CheckLOS())
-                pf.PathFinding();
-            closedList = new Queue<Node>(pf.ClosedList);
-            closedList.Dequeue(); //This gets rid of the first node which is the enemy
-        }
         if (Input.GetKeyDown(KeyCode.L))
             Jump();
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.5f);
         if (hit.collider != null)
         {
-            if (hit.collider.name.Contains("Platform") || hit.collider.name.Contains("Floor"))
+            if (hit.collider.CompareTag("Obstacle"))
             {
                 grounded = true;
             }
         }
-        //if (CheckLOS() && moving == true)
-        if (moving)
+        else
         {
-            if (closedList.Count > 0 && !CheckLOS())
+            grounded = false;
+        }
+        float distToPlayer = CheckDistToPlayer();
+        //print(distToPlayer);
+        if ((distToPlayer < 20 || trackingPlayer) && moving)
+        {
+            trackingPlayer = true;
+            Vector2 player_X_only = new Vector2(player.transform.position.x, transform.position.y);
+
+            if(player.transform.position.y > transform.position.y)
             {
-                float dist = Vector2.Distance(transform.position, closedList.Peek().transform.position);
-                if (dist > 3)
+                Node closestNode = FindClosestNode();
+                if(closestNode != null)
                 {
-                    
-                    if (closedList.Peek().transform.position.y > transform.position.y || previous.name.Contains("Left"))
-                    { 
-                            Jump();
-                    }
-                    transform.position = Vector2.MoveTowards(transform.position, closedList.Peek().transform.position, MoveSpeed * Time.deltaTime);
-                }
-                else
-                {
-                    previous = closedList.Peek();
-                    closedList.Dequeue();
+                    Jump();
                 }
             }
-            else
-                transform.position = Vector2.MoveTowards(transform.position, player.transform.position, MoveSpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, player_X_only, MoveSpeed * Time.deltaTime);
         }
 
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(transform.position, Vector2.down * 1.5f);
+        if (PatrolPoints.Length > 0)
+        {
+            Gizmos.DrawWireSphere(PatrolPoints[0], 1);
+            Gizmos.DrawWireSphere(PatrolPoints[1], 1);
+        }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -96,6 +102,24 @@ public class Enemy_Base : MonoBehaviour
         }
     }
 
+    Node FindClosestNode()
+    {
+        foreach (Node n in PlatformNodes)
+        {
+            float dist = Vector2.Distance(n.transform.position, transform.position);
+            if (dist <= 5 && n.transform.position.y > transform.position.y)
+            {
+                print(n.transform.parent.name + ": " + n.name + " " + dist);
+                return n;
+            }
+        }
+        return null;
+    }
+
+    float CheckDistToPlayer()
+    {
+        return Vector2.Distance(transform.position, player.transform.position);
+    }
     public bool CheckLOS()
     {
 
@@ -120,5 +144,10 @@ public class Enemy_Base : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, JumpStrength);
             grounded = false;
         }
+    }
+
+    public virtual void Fly()
+    {
+
     }
 }
