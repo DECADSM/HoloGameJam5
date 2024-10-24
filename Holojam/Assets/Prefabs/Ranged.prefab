@@ -35,6 +35,7 @@ Transform:
   m_Children:
   - {fileID: 8132678997569887647}
   - {fileID: 3117895843107200877}
+  - {fileID: 1521790012971981035}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6491648689298237640
@@ -175,6 +176,39 @@ MonoBehaviour:
   trackingPlayer: 1
   melee: 1
   AttackCollider: {fileID: 0}
+  Bullet: {fileID: 7789460162243091006, guid: f7a5b98a7b486d4409b65e93b0a89539, type: 3}
+  BulletSpawnerTransform: {fileID: 1521790012971981035}
+--- !u!1 &2311644788539881754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1521790012971981035}
+  m_Layer: 2
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1521790012971981035
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2311644788539881754}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.793, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1260824902700326820}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5776703925619144978
 GameObject:
   m_ObjectHideFlags: 0

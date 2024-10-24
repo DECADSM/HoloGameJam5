@@ -14,6 +14,7 @@ public class Bullet : MonoBehaviour
     public float speed = 100f;
     public int damage = 1;
     public BulletType type = BulletType.Gun;
+    public GameObject parent;
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +42,7 @@ public class Bullet : MonoBehaviour
             collision.GetComponent<Enemy_Base>().TakeDamage(damage);
             Destroy(gameObject);
         }
-        else if(collision.CompareTag("Enemy"))
+        else if(collision.CompareTag("Player") && !collision.Equals(parent))
         {
             collision.GetComponent<PlayerController>().RemoveHealth(damage);
             Destroy(gameObject);
