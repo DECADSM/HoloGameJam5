@@ -21,6 +21,14 @@ public class PlayerController : MonoBehaviour
     private InputAction previousAction;
     private ContactFilter2D wallContactFilter;
 
+    //temp player feedback
+    private SpriteRenderer Character;
+    private Color originalColor;
+
+    [Header("Stats")]
+    [SerializeField] float Health = 100;
+    [Space(10)]
+
     [Header("Movement Parameters")]
     public float jumpStrength = 5f;
     public float moveSpeed = 50f;
@@ -44,6 +52,8 @@ public class PlayerController : MonoBehaviour
         LayerMask playerMask = 0b_1111_1111_1111_1111 ^ MoveThroughLayer; //anything but a player
         wallContactFilter.SetLayerMask(playerMask);
 
+        Character = GetComponent<SpriteRenderer>();
+        originalColor = Character.color;
     }
 
     private void Update()
@@ -127,6 +137,28 @@ public class PlayerController : MonoBehaviour
         gun.currentBullet = (BulletType)(currentCharacter - 1);
     }
 
-    
+    void CheckDead()
+    {
+        if(Health <= 0)
+        {
+
+        }
+    }
+
+    public void RemoveHealth(float dmg)
+    {
+        Health -= dmg;
+        Character.color = Color.red;
+        StartCoroutine(RevertColor());
+    }
+    private IEnumerator RevertColor()
+    {
+        yield return new WaitForSeconds(.25f);
+        Character.color = originalColor;
+    }
+    public void AddHealth(float amt)
+    {
+        Health += amt;
+    }
 
 }

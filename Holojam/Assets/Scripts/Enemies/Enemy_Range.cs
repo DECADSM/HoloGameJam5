@@ -9,6 +9,7 @@ public class Enemy_Range : Enemy_Base
     protected override void Start()
     {
         base.Start();
+        melee = false;
     }
 
     // Update is called once per frame
@@ -48,6 +49,11 @@ public class Enemy_Range : Enemy_Base
             
             transform.position = Vector2.MoveTowards(transform.position, player_X_only, MoveSpeed * Time.deltaTime);
         }
+    }
+
+    protected override void Attack()
+    {
+
     }
 
     private void OnDrawGizmos()

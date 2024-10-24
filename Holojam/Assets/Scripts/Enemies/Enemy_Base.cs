@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,15 @@ public class Enemy_Base : MonoBehaviour
     [SerializeField] public Vector2[] PatrolPoints;
     [SerializeField] public bool grounded = true;
     public bool trackingPlayer = true;
+    public bool melee = true;
+    bool inMeleeRange = false;
+    [SerializeField] BoxCollider2D AttackCollider;
+
+    [NonSerialized] public float attackTimerBase = 3, runningAttackTimer = 0;
+
+    //temp feedback
+    [NonSerialized] public SpriteRenderer rend;
+    [NonSerialized] public Color originalColor;
 
     List<Node> PlatformNodes;
 
@@ -32,11 +42,23 @@ public class Enemy_Base : MonoBehaviour
         player = FindObjectOfType<PlayerController>();
         rb = GetComponent<Rigidbody2D>();
         PlatformNodes = FindObjectsOfType<Node>().ToList();
+        if(AttackCollider == null)
+        {
+            AttackCollider = GetComponentInChildren<BoxCollider2D>();
+        }
+        rend = GetComponent<SpriteRenderer>();
+        originalColor = rend.color;
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
+        if (runningAttackTimer > 0)
+            runningAttackTimer -= Time.deltaTime;
+
+        if (inMeleeRange)
+            Attack();
+
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.5f);
         if (hit.collider != null)
         {
@@ -67,6 +89,39 @@ public class Enemy_Base : MonoBehaviour
             transform.position = Vector2.MoveTowards(transform.position, player_X_only, MoveSpeed * Time.deltaTime);
         }
 
+
+        CheckDead();
+    }
+
+    protected virtual void Attack()
+    {
+        if(runningAttackTimer <= 0)
+        {
+            player.RemoveHealth(Damage);
+            runningAttackTimer = attackTimerBase;
+        }
+    }
+
+    public virtual void TakeDamage(float dmg)
+    {
+        Health -= dmg;
+        rend.color = Color.blue;
+        StartCoroutine(RevertColor());
+    }
+
+    private IEnumerator RevertColor()
+    {
+        yield return new WaitForSeconds(.25f);
+        rend.color = originalColor;
+    }
+
+
+    void CheckDead()
+    {
+        if(Health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnDrawGizmos()
@@ -81,23 +136,19 @@ public class Enemy_Base : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (player != null)
+        if(collision.collider.CompareTag("Player"))
         {
-            if (collision.collider.gameObject.Equals(player.gameObject))
-            {
-                moving = false;
-            }
+            print("In Melee Range");
+            inMeleeRange = true;
+            moving = false;
         }
     }
+
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (player != null)
-        {
-            if (collision.collider.gameObject.Equals(player.gameObject))
-            {
-                moving = true;
-            }
-        }
+        print("Exiting Melee Range");
+        inMeleeRange = false;
+        moving = true;
     }
 
     public Node FindClosestNode()
@@ -107,7 +158,7 @@ public class Enemy_Base : MonoBehaviour
             float dist = Vector2.Distance(n.transform.position, transform.position);
             if (dist <= 5 && n.transform.position.y > transform.position.y)
             {
-                print(n.transform.parent.name + ": " + n.name + " " + dist);
+                //print(n.transform.parent.name + ": " + n.name + " " + dist);
                 return n;
             }
         }

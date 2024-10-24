@@ -7,7 +7,8 @@ public class Enemy_Flying : Enemy_Base
     // Start is called before the first frame update
     protected override void Start()
     {
-        base.Start();
+        player = FindObjectOfType<PlayerController>();
+        melee = false;
     }
 
     // Update is called once per frame
@@ -25,5 +26,10 @@ public class Enemy_Flying : Enemy_Base
 
             transform.position = Vector2.MoveTowards(transform.position, player_X_only, MoveSpeed * Time.deltaTime);
         }
+    }
+
+    protected override void Attack()
+    {
+
     }
 }
