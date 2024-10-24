@@ -8,27 +8,34 @@ using UnityEngine;
 
 public class Enemy_Base : MonoBehaviour
 {
-    public float Health, Damage;
+    [Header("Stats")]
+    public float Health;
+    public float Damage;
     public float MoveSpeed = 5, JumpStrength = 13;
+    public float JumpDistance = 5;
+    public PlayerController player;
+    //[SerializeField] BoxCollider2D AttackCollider;
+    [SerializeField] float KnockbackStrength;
+
     private Rigidbody2D rb;
 
-    public float JumpDistance = 5;
-
-    public PlayerController player;
-    [SerializeField] public bool moving = false;
-
+    [Space(5)]
     [SerializeField] public Vector2[] PatrolPoints;
+    [Space(5)]
+    [Header("Flags")]
     [SerializeField] public bool grounded = true;
+    [SerializeField] public bool moving = false;
     public bool trackingPlayer = true;
     public bool melee = true;
     bool inMeleeRange = false;
-    [SerializeField] BoxCollider2D AttackCollider;
 
-    [NonSerialized] public float attackTimerBase = 3, runningAttackTimer = 0;
+    [NonSerialized] public float attackTimerBase = 1.5f, runningAttackTimer = 0;
+    [NonSerialized] public float movingTimerBase = 1, runningMovingTimer = 0;
 
     //temp feedback
     [NonSerialized] public SpriteRenderer rend;
     [NonSerialized] public Color originalColor;
+
 
     List<Node> PlatformNodes;
 
@@ -42,10 +49,10 @@ public class Enemy_Base : MonoBehaviour
         player = FindObjectOfType<PlayerController>();
         rb = GetComponent<Rigidbody2D>();
         PlatformNodes = FindObjectsOfType<Node>().ToList();
-        if(AttackCollider == null)
-        {
-            AttackCollider = GetComponentInChildren<BoxCollider2D>();
-        }
+        //if(AttackCollider == null)
+        //{
+        //    AttackCollider = GetComponentInChildren<BoxCollider2D>();
+        //}
         rend = GetComponent<SpriteRenderer>();
         originalColor = rend.color;
     }
@@ -55,6 +62,13 @@ public class Enemy_Base : MonoBehaviour
     {
         if (runningAttackTimer > 0)
             runningAttackTimer -= Time.deltaTime;
+        if (runningMovingTimer > 0)
+            runningMovingTimer -= Time.deltaTime;
+
+        if(runningMovingTimer <= 0)
+        {
+            moving = true;
+        }
 
         if (inMeleeRange)
             Attack();
@@ -98,7 +112,11 @@ public class Enemy_Base : MonoBehaviour
         if(runningAttackTimer <= 0)
         {
             player.RemoveHealth(Damage);
+            player.GetComponent<PlayerController>().GettingHit();
+            Vector2 movePlayerUp = new Vector2(player.transform.position.x, player.transform.position.y + 2);
+            player.GetComponent<Rigidbody2D>().AddForce((movePlayerUp - new Vector2(transform.position.x, transform.position.y)).normalized * KnockbackStrength, ForceMode2D.Impulse);
             runningAttackTimer = attackTimerBase;
+            inMeleeRange = false;
         }
     }
 
@@ -140,15 +158,19 @@ public class Enemy_Base : MonoBehaviour
         {
             print("In Melee Range");
             inMeleeRange = true;
+            runningMovingTimer = movingTimerBase;
             moving = false;
         }
     }
-
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
-        print("Exiting Melee Range");
-        inMeleeRange = false;
-        moving = true;
+        if (collision.collider.CompareTag("Player"))
+        {
+            print("Still In Melee Range");
+            inMeleeRange = true;
+            runningMovingTimer = movingTimerBase;
+            moving = false;
+        }
     }
 
     public Node FindClosestNode()

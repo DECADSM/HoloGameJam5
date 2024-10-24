@@ -24,6 +24,9 @@ public class PlayerController : MonoBehaviour
     //temp player feedback
     private SpriteRenderer Character;
     private Color originalColor;
+    //Actual player feedback -> trying to add knockback
+    private bool hit = false;
+    private float hitReset = 1, hitTimer;
 
     [Header("Stats")]
     [SerializeField] float Health = 100;
@@ -58,6 +61,12 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        //wait for a little reset hit flag to move again to allow force/knockback to be added
+        if (hitTimer > 0)
+            hitTimer -= Time.deltaTime;
+        if (hitTimer < 0)
+            hit = false;
+
         if (nextAction.WasPressedThisFrame())
         {
             currentCharacter = currentCharacter + 1;
@@ -110,7 +119,7 @@ public class PlayerController : MonoBehaviour
                 break;
             }
         }
-        if (canmove) 
+        if (canmove && !hit) 
         {
             rb.velocity = new Vector2(moveValue.x * moveSpeed * Time.deltaTime, rb.velocity.y);
 
@@ -159,6 +168,11 @@ public class PlayerController : MonoBehaviour
     public void AddHealth(float amt)
     {
         Health += amt;
+    }
+    public void GettingHit()
+    {
+        hit = true;
+        hitTimer = hitReset;
     }
 
 }
