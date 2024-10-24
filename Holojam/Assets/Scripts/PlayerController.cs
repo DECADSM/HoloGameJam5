@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        CapsuleCollider2D capsuleCollider = rb.GetComponent<CapsuleCollider2D>();
+        BoxCollider2D boxCollider = rb.GetComponent<BoxCollider2D>();
 
         //get movement as (1,0) or (0,0) or (-1,0)
         Vector2 moveValue = new Vector2(moveAction.ReadValue<Vector2>().x,0).normalized;
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector3(moveValue.x, 1, 1);
         }
         // check if moving into an object
-        float halfSize = capsuleCollider.bounds.extents.x;
+        float halfSize = boxCollider.bounds.extents.x;
         RaycastHit2D[] hits = new RaycastHit2D[10];
         int numHits = Physics2D.BoxCast(new Vector2(transform.position.x, transform.position.y), new Vector2(0.9f, 1.9f), 0, moveValue, wallContactFilter, hits, halfSize+ WallCheckCorrectionValue);
         
