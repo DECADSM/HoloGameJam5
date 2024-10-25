@@ -138,13 +138,12 @@ MonoBehaviour:
   JumpStrength: 13
   JumpDistance: 10
   player: {fileID: 0}
-  AttackCollider: {fileID: 0}
-  KnockbackStrength: 0
+  KnockbackStrength: 10
   PatrolPoints:
   - {x: -3, y: 0}
   - {x: 3, y: 0}
   grounded: 1
-  moving: 0
+  moving: 1
   trackingPlayer: 1
   melee: 1
 --- !u!58 &2574412383834315196
