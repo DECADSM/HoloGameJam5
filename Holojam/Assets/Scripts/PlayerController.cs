@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
 
         for (int i = 0; i < numHits; i++)
         {
-            if (hits[i].rigidbody.gameObject.tag != "Enemy" && hits[i].distance < 0.1f)
+            if (hits[i].transform.tag != "Enemy" && hits[i].distance < 0.1f)
             {
                 canmove = false;
                 //print(hits[i].distance);
