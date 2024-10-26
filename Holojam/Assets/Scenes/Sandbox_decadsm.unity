@@ -407,7 +407,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6439715675116301564, guid: ab7c1628b4ff50c48926362a0dfae15b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.07
+      value: -1.55
       objectReference: {fileID: 0}
     - target: {fileID: 6439715675116301564, guid: ab7c1628b4ff50c48926362a0dfae15b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -683,7 +683,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 16050744420691620, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
       propertyPath: ShotTimer
-      value: 5
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 16050744420691620, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
+      propertyPath: NumOfShots
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 16050744420691620, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
       propertyPath: RushDamage

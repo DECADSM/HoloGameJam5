@@ -35,7 +35,7 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Enemy"))
+        if(collision.CompareTag("Enemy") && !collision.Equals(parent))
         {
             //TODO: damage the enemy
 
@@ -52,12 +52,18 @@ public class Bullet : MonoBehaviour
             if(type != BulletType.Bow)
             {
                 Destroy(gameObject);
+                return;
             }
         }
-        else if (collision.CompareTag("Boss"))
+        else if (collision.CompareTag("Boss") && !collision.Equals(parent))
         {
             collision.GetComponent<Enemy_Boss>().TakeDamage(damage);
             Destroy(gameObject);
         }
+        else if((collision.CompareTag("Obstacle") && !collision.Equals(parent)))
+        {
+            Destroy(gameObject);
+        }
+        
     }
 }

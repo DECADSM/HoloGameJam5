@@ -10,6 +10,7 @@ public class Enemy_Boss : MonoBehaviour
     [SerializeField] float RushDamage;
     [SerializeField] float RushForce;
     [SerializeField] float DMGMultiplier;
+    [SerializeField] float KnockbackStrength;
 
     [Space(5)]
     [Header("Timers")]
@@ -24,7 +25,6 @@ public class Enemy_Boss : MonoBehaviour
     float EnterCorruptionTimerRunning = 0;
     [SerializeField] float CorruptionDuration;
     float CorruptionDurationRunning = 0;
-    [SerializeField] float KnockbackStrength;
 
     [Space(5)]
     [Header("Flags")]
@@ -54,6 +54,8 @@ public class Enemy_Boss : MonoBehaviour
     GameObject RushTarget;
     bool RushHit = false;
 
+    List<KeyValuePair<GameObject, Vector2>> Bullets;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -62,6 +64,7 @@ public class Enemy_Boss : MonoBehaviour
         SR = gameObject.GetComponent<SpriteRenderer>();
 
         OGColor = SR.color;
+        Bullets = new List<KeyValuePair<GameObject, Vector2>>();
 
         SetRushTarget();
     }
@@ -111,6 +114,7 @@ public class Enemy_Boss : MonoBehaviour
             case 1://Shoot
                 LastAction = 1;
                 print("Shooting");
+                MachinegunBurst();
                 break;
             case 2://Rush
                 print("Rushing");
@@ -170,19 +174,42 @@ public class Enemy_Boss : MonoBehaviour
 
     void MachinegunBurst()
     {
-        if (!ActionRunning)
-        {
-            ActionRunning = true;
-            List<GameObject> Bullets = new List<GameObject>();
-            Vector2 direction = (Player.transform.position - BulletSpawner.position).normalized;
+        if (windup < 1)
+            ColorWindup(Color.blue, windup += Time.deltaTime);
 
+        if (!ActionRunning && windup >= 1)
+        {
+            SR.color = OGColor;
+            float offset = -4;
             for (int i = 0; i < NumOfShots; i++)
             {
-                Bullets.Add(Instantiate(Bullet, (direction * 1.5f) + new Vector2(transform.position.x, transform.position.y + Random.Range(-2, 2)), new Quaternion()));
+                Vector2 direction = new Vector2(Player.transform.position.x + offset - BulletSpawner.position.x, Player.transform.position.y + offset - BulletSpawner.position.y).normalized;
+                if(offset <= 8)
+                    offset += 3;
+                GameObject b = (Instantiate(Bullet, (direction) + new Vector2(BulletSpawner.position.x, BulletSpawner.position.y), new Quaternion()));
+                if (b != null)
+                    print("bullet spawned");
+                b.GetComponent<Bullet>().parent = gameObject;
+                Bullets.Add(new KeyValuePair<GameObject, Vector2>(b, direction));
             }
+            Bullets[0].Key.GetComponent<Rigidbody2D>().velocity = Bullets[0].Value * Bullets[0].Key.GetComponent<Bullet>().speed;
+            Bullets.RemoveAt(0);
+            ShotTimerRunning = ShotTimer;
+            ActionRunning = true;
         }
-        else
+        else if(ActionRunning && windup >= 1)
         {
+            if(ShotTimerRunning <= 0)
+            {
+                Bullets[0].Key.GetComponent<Rigidbody2D>().velocity = Bullets[0].Value * Bullets[0].Key.GetComponent<Bullet>().speed;
+                Bullets.RemoveAt(0);
+                ShotTimerRunning = ShotTimer;
+            }
+            if (Bullets.Count <= 0)
+            {
+                RandomAction = 0;
+                ActionRunning = false;
+            }
             //continue the action until done
         }
     }
@@ -235,6 +262,10 @@ public class Enemy_Boss : MonoBehaviour
             if(Vector2.Distance(RushTarget.transform.position, transform.position) < 10)
             {
                 Physics2D.IgnoreCollision(Player.GetComponent<BoxCollider2D>(), gameObject.GetComponent<BoxCollider2D>(), false);
+                if(transform.rotation.y == 0)
+                    transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
+                else
+                    transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
                 windup = 0;
                 SetRushTarget();
                 ActionRunning = false;
