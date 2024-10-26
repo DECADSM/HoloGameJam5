@@ -8,6 +8,8 @@ public class Enemy_Boss : MonoBehaviour
     [SerializeField] float Health;
     [SerializeField] float SlamDamage;
     [SerializeField] float RushDamage;
+    [SerializeField] float RushForce;
+    [SerializeField] float DMGMultiplier;
 
     [Space(5)]
     [Header("Timers")]
@@ -85,6 +87,13 @@ public class Enemy_Boss : MonoBehaviour
         if (EnterCorruptionTimerRunning > 0)
             EnterCorruptionTimerRunning -= Time.deltaTime;
 
+        float DistToPlayer = Vector2.Distance(Player.transform.position, transform.position);
+        if (DistToPlayer < 4 && !RushHit)
+        {
+            PC.RemoveHealth(RushDamage);
+            RushHit = true;
+        }
+
         if (!ActionRunning && ActionTimerRunning <= 0)
         {
             RandomAction = Random.Range(1, 5);
@@ -93,10 +102,11 @@ public class Enemy_Boss : MonoBehaviour
             {
                 RandomAction = Random.Range(1, 5);
             }
+
             ActionTimerRunning = ActionTimer;
         }
 
-        switch(RandomAction)
+        switch (RandomAction)
         {
             case 1://Shoot
                 LastAction = 1;
@@ -104,11 +114,8 @@ public class Enemy_Boss : MonoBehaviour
                 break;
             case 2://Rush
                 print("Rushing");
+                Rush();
                 LastAction = 2;
-                if (windup < 1)
-                    ColorWindup(Color.green, windup += Time.deltaTime);
-                else
-                    Rush();
                 break;
             case 3://Stomp
                 print("Stomping");
@@ -130,6 +137,7 @@ public class Enemy_Boss : MonoBehaviour
             default:
                 break;
         }
+
     }
 
     public void TakeDamage(float dmg)
@@ -208,20 +216,22 @@ public class Enemy_Boss : MonoBehaviour
 
     void Rush()
     {
-        if (!ActionRunning)
+        if(windup < 1)
+            ColorWindup(Color.green, windup += Time.deltaTime);
+
+        
+        Vector2 direction = new Vector2(RushTarget.transform.position.x - transform.position.x, 0).normalized;
+
+        if (!ActionRunning && windup >= 1)
         {
             Physics2D.IgnoreCollision(Player.GetComponent<BoxCollider2D>(), gameObject.GetComponent<BoxCollider2D>(), true);
             SR.color = OGColor;
             ActionRunning = true;
+            gameObject.GetComponent<Rigidbody2D>().AddForce(direction * RushForce, ForceMode2D.Impulse);
         }
-        else
+        else if(ActionRunning && windup >= 1)
         {
-            float DistToPlayer = Vector2.Distance(Player.transform.position, transform.position);
-            if ( DistToPlayer < 4 && !RushHit)
-            {
-                PC.RemoveHealth(RushDamage);
-                RushHit = true;
-            }
+            
             if(Vector2.Distance(RushTarget.transform.position, transform.position) < 10)
             {
                 Physics2D.IgnoreCollision(Player.GetComponent<BoxCollider2D>(), gameObject.GetComponent<BoxCollider2D>(), false);
@@ -229,6 +239,7 @@ public class Enemy_Boss : MonoBehaviour
                 SetRushTarget();
                 ActionRunning = false;
                 RushHit = false;
+                RandomAction = 0;
             }
         }
     }

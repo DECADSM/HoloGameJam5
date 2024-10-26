@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 986384407631605166}
   m_Layer: 0
   m_Name: Boss
-  m_TagString: Enemy
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -219,6 +219,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 1000
   SlamDamage: 0
+  RushDamage: 0
+  RushForce: 0
+  DMGMultiplier: 0
+  ActionTimer: 0
   ShieldTimer: 0
   ShotTimer: 0
   NumOfShots: 0

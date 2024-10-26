@@ -678,6 +678,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1592536666}
     - target: {fileID: 16050744420691620, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
+      propertyPath: RushForce
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 16050744420691620, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
       propertyPath: ShotTimer
       value: 5
       objectReference: {fileID: 0}
