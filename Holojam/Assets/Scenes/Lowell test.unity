@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6fb90a8644cb7c448f198b7aaa641d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxCoyoteFrames: 6
+  MaxCoyoteFrames: 3
   PlayerLayer:
     serializedVersion: 2
     m_Bits: 8

@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour
         //do things like update sprites and playing a character swap animation, ect.
         //change current bullet
         BaseGun gun = GetComponentInChildren<BaseGun>();
-        gun.currentBullet = (BulletType)(currentCharacter - 1);
+        gun.SetCharacter(currentCharacter);
     }
 
     void CheckDead()

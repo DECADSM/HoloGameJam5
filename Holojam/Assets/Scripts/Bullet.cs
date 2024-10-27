@@ -13,6 +13,7 @@ public class Bullet : MonoBehaviour
     public float lifetime = 3f;
     public float speed = 100f;
     public int damage = 1;
+    public int numPierce = 0;
     public BulletType type = BulletType.Gun;
     public GameObject parent;
 
@@ -38,9 +39,10 @@ public class Bullet : MonoBehaviour
         if(collision.CompareTag("Enemy") && !collision.Equals(parent))
         {
             //TODO: damage the enemy
-
+            numPierce--;
             collision.GetComponent<Enemy_Base>().TakeDamage(damage);
-            Destroy(gameObject);
+            if( numPierce < 0 )
+                Destroy(gameObject);
         }
         else if(collision.CompareTag("Player") && !collision.Equals(parent))
         {

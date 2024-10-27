@@ -221,6 +221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0653fd3c0c8209f4ca43be12aece3622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Health: 100
   jumpStrength: 20
   moveSpeed: 500
   WallCheckCorrectionValue: 0
@@ -315,6 +316,22 @@ PrefabInstance:
     - target: {fileID: 3811799818002565708, guid: 39a751475241bf140b737403b17e70d9, type: 3}
       propertyPath: m_Name
       value: Gun
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128352647824182247, guid: 39a751475241bf140b737403b17e70d9, type: 3}
+      propertyPath: HakkaColor.b
+      value: 0.98039216
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128352647824182247, guid: 39a751475241bf140b737403b17e70d9, type: 3}
+      propertyPath: HakkaColor.r
+      value: 0.9596605
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128352647824182247, guid: 39a751475241bf140b737403b17e70d9, type: 3}
+      propertyPath: ShinriColor.g
+      value: 0.20163265
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128352647824182247, guid: 39a751475241bf140b737403b17e70d9, type: 3}
+      propertyPath: ShinriColor.r
+      value: 0.7169812
       objectReference: {fileID: 0}
     - target: {fileID: 7550932671174372353, guid: 39a751475241bf140b737403b17e70d9, type: 3}
       propertyPath: m_LocalPosition.x
