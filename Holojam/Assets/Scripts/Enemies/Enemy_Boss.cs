@@ -11,6 +11,9 @@ public class Enemy_Boss : MonoBehaviour
     [SerializeField] float RushForce;
     [SerializeField] float DMGMultiplier;
     [SerializeField] float KnockbackStrength;
+    [SerializeField] float HeightAbovePlayer;
+    [SerializeField] float JumpForce;
+    [SerializeField] float StompForce;
 
     [Space(5)]
     [Header("Timers")]
@@ -25,6 +28,8 @@ public class Enemy_Boss : MonoBehaviour
     float EnterCorruptionTimerRunning = 0;
     [SerializeField] float CorruptionDuration;
     float CorruptionDurationRunning = 0;
+    [SerializeField] float StompWait;
+    float StompWaitRunning = 0;
 
     [Space(5)]
     [Header("Flags")]
@@ -123,6 +128,7 @@ public class Enemy_Boss : MonoBehaviour
                 break;
             case 3://Stomp
                 print("Stomping");
+                Stomp();
                 LastAction = 3;
                 break;
             case 4://Shield
@@ -164,7 +170,11 @@ public class Enemy_Boss : MonoBehaviour
         else
             RushTarget = LeftWall;
     }
-
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawRay(transform.position, new Vector2(Player.transform.position.x - transform.position.x, HeightAbovePlayer + 20 - transform.position.y).normalized * 5);
+    }
 
     //Move Set
     private void ShieldSwitch(bool mode)
@@ -216,16 +226,30 @@ public class Enemy_Boss : MonoBehaviour
 
     void Stomp()
     {
+        Vector2 direction = new Vector2(Player.transform.position.x - transform.position.x, HeightAbovePlayer - transform.position.y).normalized;
         //Jump up and slam down in a part of the arena, flipping to the player
         if(!ActionRunning)
         {
-
+            gameObject.GetComponent<Rigidbody2D>().AddForce(direction * JumpForce, ForceMode2D.Impulse);
             ActionRunning = true;
         }
         else
         {
+            if(transform.position.y >= HeightAbovePlayer && StompWaitRunning == 0)
+            {
+                transform.position = new Vector2(transform.position.x, HeightAbovePlayer);
+                gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
+                StompWaitRunning = StompWait;
+            }
+            if (StompWaitRunning <= 0)
+            {
+                gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.down * StompForce, ForceMode2D.Impulse);
+                RandomAction = 0;
+                ActionRunning = false;
+            }
+            else
+                transform.position = new Vector2(Player.transform.position.x, transform.position.y);
             //this is only done when the action is done
-            ActionRunning = false;
         }
     }
 
