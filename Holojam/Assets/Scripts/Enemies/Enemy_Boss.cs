@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
 public class Enemy_Boss : MonoBehaviour
@@ -95,6 +97,9 @@ public class Enemy_Boss : MonoBehaviour
         if (EnterCorruptionTimerRunning > 0)
             EnterCorruptionTimerRunning -= Time.deltaTime;
 
+        if (StompWaitRunning > 0)
+            StompWaitRunning -= Time.deltaTime;
+
         float DistToPlayer = Vector2.Distance(Player.transform.position, transform.position);
         if (DistToPlayer < 4 && !RushHit)
         {
@@ -172,8 +177,8 @@ public class Enemy_Boss : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawRay(transform.position, new Vector2(Player.transform.position.x - transform.position.x, HeightAbovePlayer + 20 - transform.position.y).normalized * 5);
+        //Gizmos.color = Color.yellow;
+        //Gizmos.DrawRay(transform.position, new Vector2(Player.transform.position.x - transform.position.x, HeightAbovePlayer + 20 - transform.position.y).normalized * 5);
     }
 
     //Move Set
@@ -185,7 +190,7 @@ public class Enemy_Boss : MonoBehaviour
     void MachinegunBurst()
     {
         if (windup < 1)
-            ColorWindup(Color.blue, windup += Time.deltaTime);
+            ColorWindup(Color.blue, windup += Time.deltaTime * .5f);
 
         if (!ActionRunning && windup >= 1)
         {
@@ -217,6 +222,7 @@ public class Enemy_Boss : MonoBehaviour
             }
             if (Bullets.Count <= 0)
             {
+                windup = 0;
                 RandomAction = 0;
                 ActionRunning = false;
             }
@@ -226,28 +232,35 @@ public class Enemy_Boss : MonoBehaviour
 
     void Stomp()
     {
+        if (windup < 1)
+            ColorWindup(Color.magenta, windup += Time.deltaTime * .5f);
         Vector2 direction = new Vector2(Player.transform.position.x - transform.position.x, HeightAbovePlayer - transform.position.y).normalized;
         //Jump up and slam down in a part of the arena, flipping to the player
-        if(!ActionRunning)
+        if(!ActionRunning && windup >= 1)
         {
-            gameObject.GetComponent<Rigidbody2D>().AddForce(direction * JumpForce, ForceMode2D.Impulse);
+            SR.color = OGColor;
+            gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
             ActionRunning = true;
         }
-        else
+        else if(ActionRunning && windup >= 1)
         {
-            if(transform.position.y >= HeightAbovePlayer && StompWaitRunning == 0)
+            if(transform.position.y >= HeightAbovePlayer && StompWaitRunning <= 0 && !StompCollider.gameObject.activeSelf)
             {
                 transform.position = new Vector2(transform.position.x, HeightAbovePlayer);
                 gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
+                gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
+                StompCollider.gameObject.SetActive(true);
                 StompWaitRunning = StompWait;
             }
-            if (StompWaitRunning <= 0)
+            else if (StompWaitRunning <= 0 && transform.position.y == HeightAbovePlayer)
             {
                 gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.down * StompForce, ForceMode2D.Impulse);
+                gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+                windup = 0;
                 RandomAction = 0;
                 ActionRunning = false;
             }
-            else
+            else if(transform.position.y == HeightAbovePlayer)
                 transform.position = new Vector2(Player.transform.position.x, transform.position.y);
             //this is only done when the action is done
         }
@@ -255,20 +268,25 @@ public class Enemy_Boss : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Player"))
+        if(collision.CompareTag("Player") )
         {
             PC.RemoveHealth(SlamDamage);
             PC.GettingHit();
 
-            Vector2 movePlayerUp = new Vector2(Player.transform.position.x, Player.transform.position.y + 2);
-            Player.GetComponent<Rigidbody2D>().AddForce((movePlayerUp - new Vector2(transform.position.x, transform.position.y)).normalized * KnockbackStrength, ForceMode2D.Impulse);
+            int left = Random.Range(0, 2);
+            if(left == 1)
+                Player.GetComponent<Rigidbody2D>().AddForce(Vector2.left * KnockbackStrength, ForceMode2D.Impulse);
+            else
+                Player.GetComponent<Rigidbody2D>().AddForce(Vector2.right * KnockbackStrength, ForceMode2D.Impulse);
         }
+
+        StompCollider.gameObject.SetActive(false);
     }
 
     void Rush()
     {
         if(windup < 1)
-            ColorWindup(Color.green, windup += Time.deltaTime);
+            ColorWindup(Color.green, windup += Time.deltaTime * .5f);
 
         
         Vector2 direction = new Vector2(RushTarget.transform.position.x - transform.position.x, 0).normalized;

@@ -241,7 +241,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.6866583, b: 0.0141509175, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -264,17 +264,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 1000
-  SlamDamage: 0
-  RushDamage: 0
-  RushForce: 0
+  SlamDamage: 30
+  RushDamage: 20
+  RushForce: 20
   DMGMultiplier: 0
-  ActionTimer: 0
-  ShieldTimer: 0
-  ShotTimer: 0
-  NumOfShots: 0
-  EnterCorruptionTimer: 0
-  CorruptionDuration: 0
-  KnockbackStrength: 0
+  KnockbackStrength: 75
+  HeightAbovePlayer: 25
+  JumpForce: 100
+  StompForce: 100
+  ActionTimer: 5
+  ShieldTimer: 5
+  ShotTimer: 0.1
+  NumOfShots: 4
+  EnterCorruptionTimer: 10
+  CorruptionDuration: 5
+  StompWait: 1
   Corruption: 0
   Player: {fileID: 0}
   Shield: {fileID: 7001071182606244891}
@@ -381,8 +385,8 @@ Transform:
   m_GameObject: {fileID: 9117648505747556155}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.043, y: -0.476, z: -0.009749532}
-  m_LocalScale: {x: 1.8417842, y: 0.110273026, z: 1}
+  m_LocalPosition: {x: -0.039, y: -0.547, z: -0.009749532}
+  m_LocalScale: {x: 2.647565, y: 0.24122225, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7181627622116511175}

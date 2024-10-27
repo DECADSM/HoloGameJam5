@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     private Color originalColor;
     //Actual player feedback -> trying to add knockback
     private bool hit = false;
-    private float hitReset = 1, hitTimer;
+    private float hitReset = 2, hitTimer;
 
     [Header("Stats")]
     [SerializeField] float Health = 100;

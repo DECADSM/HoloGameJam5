@@ -880,11 +880,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4273104783799695187, guid: f0ae886a361253c45bfefa603ae9fa29, type: 3}
   m_PrefabInstance: {fileID: 1745985804}
   m_PrefabAsset: {fileID: 0}
---- !u!212 &1928812834 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 2014820677508457496, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
-  m_PrefabInstance: {fileID: 882451279929158261}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2120278184
 GameObject:
   m_ObjectHideFlags: 0
@@ -1014,10 +1009,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 16050744420691620, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
-      propertyPath: SR
-      value: 
-      objectReference: {fileID: 1928812834}
-    - target: {fileID: 16050744420691620, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
       propertyPath: Player
       value: 
       objectReference: {fileID: 1249993092}
@@ -1027,7 +1018,7 @@ PrefabInstance:
       objectReference: {fileID: 1745985805}
     - target: {fileID: 16050744420691620, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
       propertyPath: JumpForce
-      value: 50
+      value: 1500
       objectReference: {fileID: 0}
     - target: {fileID: 16050744420691620, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
       propertyPath: RightWall
@@ -1035,59 +1026,19 @@ PrefabInstance:
       objectReference: {fileID: 1592536666}
     - target: {fileID: 16050744420691620, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
       propertyPath: RushForce
-      value: 20
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 16050744420691620, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
-      propertyPath: ShotTimer
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 16050744420691620, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
-      propertyPath: StompWait
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 16050744420691620, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
-      propertyPath: NumOfShots
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 16050744420691620, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
-      propertyPath: RushDamage
-      value: 20
+      propertyPath: SlamDamage
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 16050744420691620, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
       propertyPath: StompForce
-      value: 50
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 16050744420691620, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
-      propertyPath: ActionTimer
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 16050744420691620, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
-      propertyPath: ShieldTimer
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 16050744420691620, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
-      propertyPath: HeightAbovePlayer
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 16050744420691620, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
-      propertyPath: CorruptionDuration
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 16050744420691620, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
-      propertyPath: EnterCorruptionTimer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2014820677508457496, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
-      propertyPath: m_Color.b
-      value: 0.0141509175
-      objectReference: {fileID: 0}
-    - target: {fileID: 2014820677508457496, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
-      propertyPath: m_Color.g
-      value: 0.6866583
-      objectReference: {fileID: 0}
-    - target: {fileID: 2014820677508457496, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
-      propertyPath: m_Color.r
-      value: 1
+      propertyPath: KnockbackStrength
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 7181627622116511175, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1129,13 +1080,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8157675774596558689, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
+      propertyPath: m_Mass
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 8222048092760289122, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
       propertyPath: m_Name
       value: Boss
-      objectReference: {fileID: 0}
-    - target: {fileID: 8222048092760289122, guid: 440289ceca3bd2d43b9098ef1adc2a2a, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
