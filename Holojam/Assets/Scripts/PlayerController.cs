@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
     private bool hit = false;
     private float hitReset = 2, hitTimer;
 
+    public Animator animator;
+
     [Header("Stats")]
     [SerializeField] float Health = 100;
     [Space(10)]
@@ -57,6 +59,8 @@ public class PlayerController : MonoBehaviour
 
         Character = GetComponent<SpriteRenderer>();
         originalColor = Character.color;
+
+        animator = GetComponent<Animator>();
     }
 
     private void Update()

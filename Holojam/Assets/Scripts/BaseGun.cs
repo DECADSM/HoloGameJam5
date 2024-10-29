@@ -56,6 +56,8 @@ public class BaseGun : MonoBehaviour
 
             if(currentChargeTime >= currentMaxCharge && FireOnFullCharge)
             {
+                //will need a better solution to animation playing and on which character
+                playerTransform.parent.GetComponent<PlayerController>().animator.SetTrigger("Shoot");
                 CreateBullet();
             }
         }
@@ -70,7 +72,6 @@ public class BaseGun : MonoBehaviour
             bHasFired = false;
         }
 
-        
     }
 
     private GameObject CreateBullet()
