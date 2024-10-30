@@ -18,17 +18,39 @@ public class Bullet : MonoBehaviour
     public BulletType type = BulletType.Gun;
     public GameObject parent;
 
+
     public AudioClip shootSound;
 
     // Start is called before the first frame update
     void Start()
     {
-        AudioSource audio = gameObject.GetComponent<AudioSource>();
+<<<<<<< HEAD
+        animator = GetComponent<Animator>();
+        AudioSource audio = GetComponent<AudioSource>();
 
-		if (audio != null && shootSound != null)
+        if (animator != null)
+        {
+            switch (type)
+            {
+                case BulletType.Gun:
+                    animator.runtimeAnimatorController = AltareBolt;
+                    break;
+                case BulletType.Bow:
+                    animator.runtimeAnimatorController = ShinriArrow;
+                    break;
+                case BulletType.Magic:
+                    animator.runtimeAnimatorController = HakkaSeal;
+                    break;
+            }
+        }
+
+        if (audio != null && shootSound != null)
         {
             audio.PlayOneShot(shootSound);
         }
+
+=======
+>>>>>>> 0acdf901a9c963ebda4377cf3a4b2cb0299f0cf6
     }
 
     // Update is called once per frame
