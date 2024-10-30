@@ -10,6 +10,7 @@ public enum VTubeManNameGuy
     Altare,
     Shinri,
     Hakka,
+    Random,
     End,
 };
 [RequireComponent(typeof(Rigidbody2D))]

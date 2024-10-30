@@ -12,6 +12,7 @@ public class BaseGun : MonoBehaviour
     public BulletType currentBullet = BulletType.Gun;
     [SerializeField]
     private Transform BulletSpawnerTransform;
+
     
     private InputAction ShootAction;
     private Transform playerTransform;
@@ -80,6 +81,7 @@ public class BaseGun : MonoBehaviour
         switch (currentBullet)
         {
             case BulletType.Gun:
+                //animator.
                 projPrefab = bulletPrefab;
                 break;
             case BulletType.Bow:
