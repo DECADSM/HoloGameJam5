@@ -48,6 +48,14 @@ public class PlayerController : MonoBehaviour
     [Header("Character Parameters")]
     public VTubeManNameGuy currentCharacter = VTubeManNameGuy.Altare;
 
+    [Space(10)]
+    [Header("Audio")]
+    public AudioClip playerJump;
+    public AudioClip playerHurt;
+    public AudioClip playerDie;
+    private AudioSource audioSource;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -62,6 +70,7 @@ public class PlayerController : MonoBehaviour
         originalColor = Character.color;
 
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -137,6 +146,10 @@ public class PlayerController : MonoBehaviour
            // print("jump");
             // your jump code here
             rb.velocity = new Vector2(rb.velocity.x, jumpStrength);
+            if (audioSource != null && playerJump !=null)
+            {
+                audioSource.PlayOneShot(playerJump);
+            }
         }
 
         
@@ -155,7 +168,10 @@ public class PlayerController : MonoBehaviour
     {
         if(Health <= 0)
         {
-
+            if (audioSource != null && playerDie != null)
+            {
+                audioSource.PlayOneShot(playerDie);
+            }
         }
     }
 
@@ -164,6 +180,10 @@ public class PlayerController : MonoBehaviour
         Health -= dmg;
         Character.color = Color.red;
         StartCoroutine(RevertColor());
+        if (audioSource != null && playerHurt != null)
+        {
+            audioSource.PlayOneShot(playerHurt);
+        }
     }
     private IEnumerator RevertColor()
     {

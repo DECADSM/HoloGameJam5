@@ -232,6 +232,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   currentCharacter: 1
+  playerJump: {fileID: 8300000, guid: 52974a9ad312d2a4d876896c18f56787, type: 3}
+  playerHurt: {fileID: 8300000, guid: 73f9de8f3d2bcc84cb1dbf696947b5d6, type: 3}
+  playerDie: {fileID: 8300000, guid: aba52017b264db841ab2c0231af20195, type: 3}
 --- !u!61 &5705704600133182906
 BoxCollider2D:
   m_ObjectHideFlags: 0
