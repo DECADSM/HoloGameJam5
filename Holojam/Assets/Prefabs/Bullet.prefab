@@ -24,6 +24,10 @@ PrefabInstance:
       propertyPath: AltareBolt
       value: 
       objectReference: {fileID: 9100000, guid: a373b7c5153995d478d8966fcf5e0b15, type: 2}
+    - target: {fileID: 5786741981911835792, guid: c8c43cac4d993a5449741687c077ac2d, type: 3}
+      propertyPath: shootSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 22ccfd2759934ca48bfc0a3476ecd77c, type: 3}
     - target: {fileID: 7046951813701141685, guid: c8c43cac4d993a5449741687c077ac2d, type: 3}
       propertyPath: m_Name
       value: Bullet

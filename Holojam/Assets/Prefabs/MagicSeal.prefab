@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 202458330446793403, guid: c8c43cac4d993a5449741687c077ac2d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1426157738065674760, guid: c8c43cac4d993a5449741687c077ac2d, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -28,6 +32,10 @@ PrefabInstance:
       propertyPath: type
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5786741981911835792, guid: c8c43cac4d993a5449741687c077ac2d, type: 3}
+      propertyPath: shootSound
+      value: 
+      objectReference: {fileID: 8300000, guid: e8aad89e2104f4648b9b412e4e123856, type: 3}
     - target: {fileID: 7046951813701141685, guid: c8c43cac4d993a5449741687c077ac2d, type: 3}
       propertyPath: m_Name
       value: MagicSeal

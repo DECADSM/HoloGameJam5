@@ -101,7 +101,18 @@ MonoBehaviour:
   bulletPrefab: {fileID: 7789460162243091006, guid: 68b6606e28272604196f2ade85409230, type: 3}
   ArrowPrefab: {fileID: 4292370551357443238, guid: 5572b5909bfd7d94ebf8e0c8d035bd2b, type: 3}
   magicSealPrefab: {fileID: 6437281518853238789, guid: b6269f60a7431244e8ce573fab3a0cfb, type: 3}
+  currentBullet: 0
   BulletSpawnerTransform: {fileID: 7888721921063519463}
+  AltareChargeTime: 0
+  AltareColor: {r: 1, g: 1, b: 1, a: 1}
+  AltareFireOnFullCharge: 1
+  ShinriChargeTime: 0.5
+  ShinriColor: {r: 1, g: 0, b: 0, a: 1}
+  ShinriFireOnFullCharge: 0
+  ShinriChargeSound: {fileID: 8300000, guid: b640979d453b22b4ea8becf9b859d1cb, type: 3}
+  HakkaChargeTime: 0.25
+  HakkaColor: {r: 1, g: 0, b: 1, a: 1}
+  HakkaFireOnFullCharge: 1
 --- !u!1 &3904995256469459005
 GameObject:
   m_ObjectHideFlags: 0

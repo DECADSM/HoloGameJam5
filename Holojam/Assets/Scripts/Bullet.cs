@@ -23,23 +23,35 @@ public class Bullet : MonoBehaviour
     [SerializeField] AnimatorController HakkaSeal;
     [SerializeField] AnimatorController ShinriArrow;
 
+    public AudioClip shootSound;
+
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
+        AudioSource audio = GetComponent<AudioSource>();
 
-        switch(type)
+        if (animator != null)
         {
-            case BulletType.Gun:
-                animator.runtimeAnimatorController = AltareBolt;
-                break;
-            case BulletType.Bow:
-                animator.runtimeAnimatorController = ShinriArrow;
-                break;
-            case BulletType.Magic:
-                animator.runtimeAnimatorController = HakkaSeal;
-                break;
+            switch (type)
+            {
+                case BulletType.Gun:
+                    animator.runtimeAnimatorController = AltareBolt;
+                    break;
+                case BulletType.Bow:
+                    animator.runtimeAnimatorController = ShinriArrow;
+                    break;
+                case BulletType.Magic:
+                    animator.runtimeAnimatorController = HakkaSeal;
+                    break;
+            }
         }
+
+        if (audio != null && shootSound != null)
+        {
+            audio.PlayOneShot(shootSound);
+        }
+
     }
 
     // Update is called once per frame

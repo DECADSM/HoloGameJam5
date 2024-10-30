@@ -28,6 +28,10 @@ PrefabInstance:
       propertyPath: type
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5786741981911835792, guid: c8c43cac4d993a5449741687c077ac2d, type: 3}
+      propertyPath: shootSound
+      value: 
+      objectReference: {fileID: 8300000, guid: dd300dbaa99664f47977833749dc7ac3, type: 3}
     - target: {fileID: 7046951813701141685, guid: c8c43cac4d993a5449741687c077ac2d, type: 3}
       propertyPath: m_Name
       value: Arrow

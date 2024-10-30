@@ -17,6 +17,7 @@ public class BaseGun : MonoBehaviour
     private InputAction ShootAction;
     private Transform playerTransform;
     private bool bHasFired = false;
+    private bool bHasCharged = false;
 
     [Space(10)]
     [Header("Character properties")]
@@ -28,6 +29,7 @@ public class BaseGun : MonoBehaviour
     public float ShinriChargeTime = 0.5f;
     public Color ShinriColor = Color.red;
     public bool ShinriFireOnFullCharge = false;
+    public AudioClip ShinriChargeSound = null;
 
     [Space(10)]
     public float HakkaChargeTime = 0.25f;
@@ -46,6 +48,8 @@ public class BaseGun : MonoBehaviour
         Debug.Assert(playerTransform != null, "Gun failed to find parent transform");
        
         ShootAction = InputSystem.actions.FindAction("Shoot");
+
+     
     }
 
     // Update is called once per frame
@@ -55,11 +59,23 @@ public class BaseGun : MonoBehaviour
         {
             currentChargeTime += Time.deltaTime;
 
+
             if(currentChargeTime >= currentMaxCharge && FireOnFullCharge)
             {
                 //will need a better solution to animation playing and on which character
-                playerTransform.parent.GetComponent<PlayerController>().animator.SetTrigger("Shoot");
+                if(playerTransform.parent.GetComponent<PlayerController>().animator != null)
+                    playerTransform.parent.GetComponent<PlayerController>().animator.SetTrigger("Shoot");
                 CreateBullet();
+            }
+            else if (currentChargeTime >= currentMaxCharge && !bHasCharged)
+            {
+                AudioSource audio = GetComponent<AudioSource>();
+
+                if (audio != null)
+                {
+                    audio.PlayOneShot(ShinriChargeSound);
+                }
+                bHasCharged = true;
             }
         }
         else if(ShootAction.WasReleasedThisFrame())
@@ -71,6 +87,7 @@ public class BaseGun : MonoBehaviour
 
             currentChargeTime = 0f;
             bHasFired = false;
+            bHasCharged = false;
         }
 
     }
@@ -113,6 +130,7 @@ public class BaseGun : MonoBehaviour
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         currentChargeTime = 0f;
+        bHasCharged = false;
         switch (guy)
         {
             case VTubeManNameGuy.Start:
