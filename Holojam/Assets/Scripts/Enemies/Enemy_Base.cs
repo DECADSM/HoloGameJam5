@@ -36,7 +36,7 @@ public class Enemy_Base : MonoBehaviour
     [NonSerialized] public SpriteRenderer rend;
     [NonSerialized] public Color originalColor;
 
-
+    public AudioClip enemyHurt;
     List<Node> PlatformNodes;
 
     // Start is called before the first frame update
@@ -125,6 +125,13 @@ public class Enemy_Base : MonoBehaviour
         Health -= dmg;
         rend.color = Color.blue;
         StartCoroutine(RevertColor());
+
+        AudioSource audio = GetComponent<AudioSource>();
+
+        if (audio != null && enemyHurt != null)
+        {
+            audio.PlayOneShot(enemyHurt);
+        }
     }
 
     private IEnumerator RevertColor()
