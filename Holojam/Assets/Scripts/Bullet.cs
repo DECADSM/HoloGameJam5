@@ -18,28 +18,10 @@ public class Bullet : MonoBehaviour
     public BulletType type = BulletType.Gun;
     public GameObject parent;
 
-    Animator animator;
-    [SerializeField] AnimatorController AltareBolt;
-    [SerializeField] AnimatorController HakkaSeal;
-    [SerializeField] AnimatorController ShinriArrow;
 
     // Start is called before the first frame update
     void Start()
     {
-        animator = GetComponent<Animator>();
-
-        switch(type)
-        {
-            case BulletType.Gun:
-                animator.runtimeAnimatorController = AltareBolt;
-                break;
-            case BulletType.Bow:
-                animator.runtimeAnimatorController = ShinriArrow;
-                break;
-            case BulletType.Magic:
-                animator.runtimeAnimatorController = HakkaSeal;
-                break;
-        }
     }
 
     // Update is called once per frame

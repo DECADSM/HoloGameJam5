@@ -54,6 +54,8 @@ public class Enemy_Boss : MonoBehaviour
     [SerializeField] Transform BulletSpawner;
     [SerializeField] GameObject LeftWall;
     [SerializeField] GameObject RightWall;
+    [SerializeField] List<GameObject> Trapdoors;
+
 
     int RandomAction = 0;
     int LastAction = 0;
@@ -117,6 +119,11 @@ public class Enemy_Boss : MonoBehaviour
             }
 
             ActionTimerRunning = ActionTimer;
+        }
+        if(LastAction == 2)
+        {
+            foreach (GameObject c in Trapdoors)
+                c.SetActive(true);
         }
 
         switch (RandomAction)
@@ -285,6 +292,11 @@ public class Enemy_Boss : MonoBehaviour
 
     void Rush()
     {
+        foreach(GameObject c in Trapdoors)
+        {
+            if (c.activeSelf)
+                c.SetActive(false);
+        }
         if(windup < 1)
             ColorWindup(Color.green, windup += Time.deltaTime * .5f);
 
