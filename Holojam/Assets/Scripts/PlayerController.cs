@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
+
 
 public enum VTubeManNameGuy
 {
@@ -36,6 +39,7 @@ public class PlayerController : MonoBehaviour
     [Header("Stats")]
     [SerializeField] float Health = 100;
     private float currHealth;
+    [SerializeField] TMP_Text NameTag;
     [Space(10)]
 
     [Header("Movement Parameters")]
@@ -76,6 +80,7 @@ public class PlayerController : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         currHealth = Health;
+        NameTag.text = VTubeManNameGuy.Altare.ToString();
     }
 
     private void Update()
@@ -89,6 +94,7 @@ public class PlayerController : MonoBehaviour
         if (nextAction.WasPressedThisFrame())
         {
             currentCharacter = currentCharacter + 1;
+            NameTag.text = currentCharacter.ToString();
             if(currentCharacter == VTubeManNameGuy.End)
             {
                 currentCharacter = VTubeManNameGuy.Altare;
@@ -98,9 +104,11 @@ public class PlayerController : MonoBehaviour
         else if (previousAction.WasPressedThisFrame())
         {
             currentCharacter = currentCharacter - 1;
+            NameTag.text = currentCharacter.ToString();
             if (currentCharacter == VTubeManNameGuy.Start)
             {
                 currentCharacter = VTubeManNameGuy.Hakka;
+                NameTag.text = currentCharacter.ToString();
             }
             UpdateCharacterProperties();
         }
