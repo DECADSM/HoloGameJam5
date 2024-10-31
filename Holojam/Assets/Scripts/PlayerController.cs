@@ -118,6 +118,13 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (transform.localScale.x == -1)
+        {
+            Camera.main.transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else
+            Camera.main.transform.localScale = new Vector3(1, 1, 1);
+
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         BoxCollider2D boxCollider = rb.GetComponent<BoxCollider2D>();
 
@@ -164,9 +171,31 @@ public class PlayerController : MonoBehaviour
                 audioSource.PlayOneShot(playerJump);
             }
         }
+    }
 
-        
-
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.collider.CompareTag("DeathBox"))
+        {
+            if (audioSource != null && playerDie != null)
+            {
+                audioSource.PlayOneShot(playerDie);
+            }
+            if (checkpoint != null)
+            {
+                Checkpoint check = checkpoint.GetComponent<Checkpoint>();
+                if (check != null)
+                {
+                    //move player 
+                    transform.position = check.playerRespawnPos.position;
+                    check.ResetLevel();
+                }
+                else
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
+            else
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
     private void UpdateCharacterProperties()

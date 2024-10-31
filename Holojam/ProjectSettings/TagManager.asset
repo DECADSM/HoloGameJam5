@@ -10,6 +10,8 @@ TagManager:
   - Obstacle
   - Shield
   - Boss
+  - Enemy Spawner
+  - DeathBox
   layers:
   - Default
   - TransparentFX
