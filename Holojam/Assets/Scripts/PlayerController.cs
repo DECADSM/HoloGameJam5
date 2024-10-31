@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public enum VTubeManNameGuy
 {
@@ -30,9 +31,11 @@ public class PlayerController : MonoBehaviour
     private float hitReset = 2, hitTimer;
 
     public Animator animator;
+    public GameObject checkpoint;
 
     [Header("Stats")]
     [SerializeField] float Health = 100;
+    private float currHealth;
     [Space(10)]
 
     [Header("Movement Parameters")]
@@ -71,6 +74,8 @@ public class PlayerController : MonoBehaviour
 
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+
+        currHealth = Health;
     }
 
     private void Update()
@@ -166,18 +171,33 @@ public class PlayerController : MonoBehaviour
 
     void CheckDead()
     {
-        if(Health <= 0)
+        if(currHealth <= 0)
         {
+            currHealth = Health;
             if (audioSource != null && playerDie != null)
             {
                 audioSource.PlayOneShot(playerDie);
             }
+
+            if(checkpoint != null)
+            {
+                Checkpoint check = checkpoint.GetComponent<Checkpoint>();
+                if (check != null)
+                {
+                    //move player 
+                    transform.position = check.playerRespawnPos.position;
+                    check.ResetLevel();
+                }
+            }
+
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            
         }
     }
 
     public void RemoveHealth(float dmg)
     {
-        Health -= dmg;
+        currHealth -= dmg;
         Character.color = Color.red;
         StartCoroutine(RevertColor());
         if (audioSource != null && playerHurt != null)
@@ -192,7 +212,7 @@ public class PlayerController : MonoBehaviour
     }
     public void AddHealth(float amt)
     {
-        Health += amt;
+        currHealth += amt;
     }
     public void GettingHit()
     {

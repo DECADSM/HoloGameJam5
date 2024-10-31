@@ -4,15 +4,40 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Transform playerRespawnPos;
+    private void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if (collision.tag == "Player" )
+        {
+            if(playerRespawnPos == null)
+            {
+                playerRespawnPos = collision.transform;
+                collision.GetComponent<PlayerController>().checkpoint = gameObject;
+            }
+        }
+    }
+
+    public void ResetLevel()
+    {
+        GameObject[] enemyArr = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject[] gamArr = GameObject.FindGameObjectsWithTag("Enemy Spawner");
+
+        //clear all living enemies
+        foreach( GameObject enemy in enemyArr)
+        {
+            GameObject.Destroy(enemy);
+        }
+
+        //reset the enemy spawners
+
+        foreach (GameObject gam in gamArr)
+        {
+            gam.GetComponent<EnemySpawner>().Reset();
+        }
     }
 }

@@ -13,6 +13,9 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] int NumOfMelee;
     [SerializeField] int NumOfRanged;
 
+    private int MaxNumOfMelee;
+    private int MaxNumOfRanged;
+
     [Space(5)]
     [Header("Spawning Interval")]
     [SerializeField] float SpawnerInterval;
@@ -35,9 +38,14 @@ public class EnemySpawner : MonoBehaviour
     private ET lastEnemySpawned = ET.None;
     void Start()
     {
-        
+        MaxNumOfMelee = NumOfMelee; 
+        MaxNumOfRanged = NumOfRanged;
     }
-
+    public void Reset()
+    {
+        NumOfMelee = MaxNumOfMelee;
+        NumOfRanged = MaxNumOfRanged;
+    }
     // Update is called once per frame
     void Update()
     {
